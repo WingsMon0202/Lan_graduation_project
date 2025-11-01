@@ -1,0 +1,30 @@
+name: attendance_admin_web
+description: Flutter web admin panel for AI edge attendance system (Raspberry Pi + XAMPP backend)
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.2
+  go_router: ^14.2.0
+  provider: ^6.1.2
+  shared_preferences: ^2.2.3
+  intl: ^0.18.0
+  google_fonts: ^6.3.0
+  animated_text_kit: ^4.3.0
+  fl_chart: 0.63.0
+  data_table_2: ^2.5.18
+  animations: ^2.0.11
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.2
+
+flutter:
+  uses-material-design: true
