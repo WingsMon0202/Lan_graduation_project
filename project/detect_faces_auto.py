@@ -4,17 +4,19 @@ import os
 import time
 import cv2
 
+# --- Cấu hình ---
 KNOWN_FACES_DIR = "known_faces"
 SNAPSHOT_PATH = "snapshot.jpg"
 TOLERANCE = 0.5
-MODEL = "hog" 
-DELAY = 10  
+MODEL = "hog"  # hoặc "cnn" nếu bạn có GPU
+DELAY = 10  # chụp mỗi 10 giây
 
 print("Đang tải dữ liệu khuôn mặt...")
 
 known_faces = []
 known_names = []
 
+# Đọc ảnh trong thư mục known_faces
 for name in os.listdir(KNOWN_FACES_DIR):
     if not name.lower().endswith((".png", ".jpg", ".jpeg")):
         continue
@@ -42,16 +44,16 @@ while True:
     encodings = face_recognition.face_encodings(image, locations)
 
     if not encodings:
-        print(" Không phát hiện khuôn mặt nào.")
+        print("❌ Không phát hiện khuôn mặt nào.")
     else:
         for face_encoding in encodings:
             results = face_recognition.compare_faces(known_faces, face_encoding, TOLERANCE)
             if True in results:
                 match = known_names[results.index(True)]
-                print(f" Phát hiện: {match}")
+                print(f"✅ Phát hiện: {match}")
             else:
-                print(" Khuôn mặt chưa đăng ký (Unknown).")
+                print("⚠️ Khuôn mặt chưa đăng ký (Unknown).")
 
-    print(" Đợi 10 giây...\n")
+    print("⏳ Đợi 10 giây...\n")
     time.sleep(DELAY)
 
