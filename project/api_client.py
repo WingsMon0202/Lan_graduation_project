@@ -38,26 +38,26 @@ def push_attendance(student_id, class_id=1, status="present"):
             try:
                 res_json = response.json()
             except json.JSONDecodeError:
-                print(f"❌ Không parse được JSON: {response.text}")
+                print(f"Không parse được JSON: {response.text}")
                 time.sleep(RETRY_DELAY)
                 continue
 
             # Kiểm tra lỗi từ server
             if res_json.get("ok") == True:
-                print(f"✅ Push thành công: {student_id}, ID inserted: {res_json.get('id')}")
+                print(f"Push thành công: {student_id}, ID inserted: {res_json.get('id')}")
                 return True
             elif "error" in res_json:
-                print(f"❌ Lỗi từ server: {res_json['error']}")
+                print(f"Lỗi từ server: {res_json['error']}")
                 time.sleep(RETRY_DELAY)
             else:
-                print(f"❌ Push thất bại: {res_json}")
+                print(f"Push thất bại: {res_json}")
                 time.sleep(RETRY_DELAY)
 
         except requests.exceptions.RequestException as e:
-            print(f"❌ Lỗi kết nối API: {e}")
+            print(f"Lỗi kết nối API: {e}")
             time.sleep(RETRY_DELAY)
 
-    print(f"⚠️ Push thất bại sau {MAX_RETRIES} lần: {student_id}")
+    print(f"Push thất bại sau {MAX_RETRIES} lần: {student_id}")
     return False
 
 
