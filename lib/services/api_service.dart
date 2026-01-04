@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/attendance_record.dart';
+import '../models/attendance_summary.dart';
 import '../models/class_item.dart';
 import '../models/dashboard_item.dart';
 import '../models/student.dart';
@@ -46,6 +47,22 @@ class ApiService {
       body: jsonEncode(payload),
     );
     return res.statusCode == 200 || res.statusCode == 201;
+  }
+
+  Future<List<AttendanceSummary>> fetchAttendanceSummary({String? date}) async {
+    await _loadBaseUrl();
+
+    final uri = date == null
+        ? Uri.parse('$_baseUrl/attendance_summary.php')
+        : Uri.parse('$_baseUrl/attendance_summary.php?date=$date');
+
+    final res = await http.get(uri);
+    if (res.statusCode != 200) {
+      throw Exception('HTTP ${res.statusCode}');
+    }
+
+    final jsonList = jsonDecode(res.body) as List;
+    return jsonList.map((e) => AttendanceSummary.fromJson(e)).toList();
   }
 
   Future<bool> deleteStudent(String studentId) async {
